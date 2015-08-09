@@ -36,6 +36,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.os.AsyncTask;
 
 import com.squareup.picasso.Picasso;
 
@@ -44,6 +46,14 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.io.IOException;
+
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.FormEncodingBuilder;
 
 import butterknife.ButterKnife;
 import butterknife.Bind;
@@ -407,10 +417,41 @@ public class EpisodeDialogFragment extends DialogFragment {
 
     @OnClick(R.id.play_button)
     public void playClick() {
-        smoothDismiss();
-        Media.Torrent torrent = mEpisode.torrents.get(mSelectedQuality);
-        StreamInfo streamInfo = new StreamInfo(mEpisode, mShow, torrent.url, mSelectedSubtitleLanguage, mSelectedQuality);
-        ((MediaDetailActivity) getActivity()).playStream(streamInfo);
+        final String jsmagnet = mEpisode.torrents.get(mSelectedQuality).url;
+        final String apikey = PrefUtils.get(getActivity(), Prefs.API_KEY, "");
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String result = null;
+
+                RequestBody formBody = new FormEncodingBuilder()
+                        .add("api_key", apikey)
+                        .add("url",jsmagnet)
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url("https://api.justseed.it/torrent/add.csp")
+                        .post(formBody)
+                        .build();
+
+                OkHttpClient client = new OkHttpClient();
+
+                try {
+                    Response response = client.newCall(request).execute();
+                    result = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+
+                Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+            }
+        }.execute();
     }
 
     @Nullable

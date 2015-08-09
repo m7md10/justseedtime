@@ -63,7 +63,9 @@ public class PrefItem {
     }
 
     public void saveValue(Object value) {
-        if (mDefaultValue instanceof Integer) {
+        if (mDefaultValue instanceof String) {
+            PrefUtils.save(mContext, mPrefKey, (String) value);
+        } else if (mDefaultValue instanceof Integer) {
             PrefUtils.save(mContext, mPrefKey, (Integer) value);
         } else if (mDefaultValue instanceof Long) {
             PrefUtils.save(mContext, mPrefKey, (Long) value);

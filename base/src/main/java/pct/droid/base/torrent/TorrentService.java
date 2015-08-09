@@ -21,12 +21,14 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
+import android.widget.Toast;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
@@ -39,9 +41,13 @@ import com.frostwire.jlibtorrent.SessionSettings;
 import com.frostwire.jlibtorrent.TorrentInfo;
 import com.frostwire.jlibtorrent.alerts.TorrentAddedAlert;
 import com.sjl.foreground.Foreground;
+
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.FormEncodingBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -369,7 +375,44 @@ public class TorrentService extends Service {
     }
 
     private TorrentInfo getTorrentInfo(String torrentUrl) {
+    final Context context = PopcornApplication.getAppContext();
+    final String magneturl = torrentUrl;
+    final String apikey = PrefUtils.get(context, Prefs.API_KEY, "");
         if (torrentUrl.startsWith("magnet")) {
+            new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String result = null;
+
+                RequestBody formBody = new FormEncodingBuilder()
+                        .add("api_key",apikey)
+                        .add("url",magneturl)
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url("https://api.justseed.it/torrent/add.csp")
+                        .post(formBody)
+                        .build();
+
+                OkHttpClient client = new OkHttpClient();
+
+                try {
+                    Response response = client.newCall(request).execute();
+                    result = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+
+                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+                
+                   }
+            }.execute();
             Downloader d = new Downloader(mTorrentSession);
 
             Timber.d("Waiting for nodes in DHT");

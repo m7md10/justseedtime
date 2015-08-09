@@ -42,7 +42,7 @@ import pct.droid.adapters.NavigationAdapter;
 import pct.droid.adapters.decorators.OneShotDividerDecorator;
 import pct.droid.base.preferences.Prefs;
 import pct.droid.base.providers.media.EZTVProvider;
-import pct.droid.base.providers.media.HaruProvider;
+//import pct.droid.base.providers.media.HaruProvider;
 import pct.droid.base.providers.media.MediaProvider;
 import pct.droid.base.providers.media.YTSProvider;
 import pct.droid.base.utils.PrefUtils;
@@ -58,7 +58,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationAdap
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
     // Central VPN menu item
-    private NavDrawerItem mVPNItem;
+    //private NavDrawerItem mVPNItem;
 
 	/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
      * views
@@ -136,7 +136,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationAdap
         mAdapter = new NavigationAdapter(getActivity(), this, initItems());
         mAdapter.setOnItemClickListener(mOnItemClickListener);
 
-        mRecyclerView.addItemDecoration(new OneShotDividerDecorator(getActivity(), 3));
+        mRecyclerView.addItemDecoration(new OneShotDividerDecorator(getActivity(), 2));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.requestFocus();
@@ -148,28 +148,28 @@ public class NavigationDrawerFragment extends Fragment implements NavigationAdap
         navItems.add(new NavDrawerItem(true));
         navItems.add(new NavDrawerItem(getString(R.string.title_movies), R.drawable.ic_nav_movies, new YTSProvider()));
         navItems.add(new NavDrawerItem(getString(R.string.title_shows), R.drawable.ic_nav_tv, new EZTVProvider()));
-        navItems.add(new NavDrawerItem(getString(R.string.title_anime), R.drawable.ic_nav_anime, new HaruProvider()));
-        if(PrefUtils.get(getActivity(), Prefs.SHOW_VPN, true) && VPNHTChecker.isDownloadAvailable(getActivity())) {
-            navItems.add(mVPNItem = new NavDrawerItem(getString(R.string.vpn), R.drawable.ic_nav_vpn, mOnVPNClickListener, VPNManager.getLatestInstance().isConnected()));
-        }
+        //navItems.add(new NavDrawerItem(getString(R.string.title_anime), R.drawable.ic_nav_anime, new HaruProvider()));
+        // if(PrefUtils.get(getActivity(), Prefs.SHOW_VPN, true) && VPNHTChecker.isDownloadAvailable(getActivity())) {
+        //     navItems.add(mVPNItem = new NavDrawerItem(getString(R.string.vpn), R.drawable.ic_nav_vpn, mOnVPNClickListener, VPNManager.getLatestInstance().isConnected()));
+        // }
         navItems.add(new NavDrawerItem(getString(R.string.preferences), R.drawable.ic_nav_settings, mOnSettingsClickListener));
 
         if(mAdapter != null)
             mAdapter.setItems(navItems);
 
-        VPNManager.State state = VPNManager.getCurrentState();
-        NavigationDrawerFragment.NavDrawerItem vpnItem = getVPNItem();
-        if(vpnItem != null) {
-            if (state.equals(VPNManager.State.DISCONNECTED)) {
-                vpnItem.setSwitchValue(false);
-                vpnItem.showProgress(false);
-            } else if(state.equals(VPNManager.State.CONNECTING)) {
-                vpnItem.showProgress(true);
-            } else if(state.equals(VPNManager.State.CONNECTED)) {
-                vpnItem.setSwitchValue(true);
-                vpnItem.showProgress(false);
-            }
-        }
+        // VPNManager.State state = VPNManager.getCurrentState();
+        // NavigationDrawerFragment.NavDrawerItem vpnItem = getVPNItem();
+        // if(vpnItem != null) {
+        //     if (state.equals(VPNManager.State.DISCONNECTED)) {
+        //         vpnItem.setSwitchValue(false);
+        //         vpnItem.showProgress(false);
+        //     } else if(state.equals(VPNManager.State.CONNECTING)) {
+        //         vpnItem.showProgress(true);
+        //     } else if(state.equals(VPNManager.State.CONNECTED)) {
+        //         vpnItem.setSwitchValue(true);
+        //         vpnItem.showProgress(false);
+        //     }
+        // }
 
         return navItems;
     }
@@ -182,25 +182,25 @@ public class NavigationDrawerFragment extends Fragment implements NavigationAdap
         }
     };
 
-    private NavDrawerItem.OnClickListener mOnVPNClickListener = new NavDrawerItem.OnClickListener() {
-        @Override
-        public void onClick(View v, NavigationAdapter.ItemRowHolder vh, int position) {
-            if(vh.getSwitch() != null) {
-                VPNManager manager = VPNManager.getLatestInstance();
-                if(manager.isVPNInstalled()) {
-                    if (!manager.isConnected()) {
-                        manager.connect();
-                        vh.getSwitch().setChecked(true);
-                    } else {
-                        manager.disconnect();
-                        vh.getSwitch().setChecked(false);
-                    }
-                } else {
-                    VPNInfoDialogFragment.show(getChildFragmentManager());
-                }
-            }
-        }
-    };
+    // private NavDrawerItem.OnClickListener mOnVPNClickListener = new NavDrawerItem.OnClickListener() {
+    //     @Override
+    //     public void onClick(View v, NavigationAdapter.ItemRowHolder vh, int position) {
+    //         if(vh.getSwitch() != null) {
+    //             VPNManager manager = VPNManager.getLatestInstance();
+    //             if(manager.isVPNInstalled()) {
+    //                 if (!manager.isConnected()) {
+    //                     manager.connect();
+    //                     vh.getSwitch().setChecked(true);
+    //                 } else {
+    //                     manager.disconnect();
+    //                     vh.getSwitch().setChecked(false);
+    //                 }
+    //             } else {
+    //                 VPNInfoDialogFragment.show(getChildFragmentManager());
+    //             }
+    //         }
+    //     }
+    // };
 
     private NavigationAdapter.OnItemClickListener mOnItemClickListener = new NavigationAdapter.OnItemClickListener() {
         @Override
@@ -236,9 +236,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationAdap
         return mAdapter.getItem(getSelectedPosition() + 1);
     }
 
-    public NavDrawerItem getVPNItem() {
-        return mVPNItem;
-    }
+    // public NavDrawerItem getVPNItem() {
+    //     return mVPNItem;
+    // }
 
 	/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	 * initialise 

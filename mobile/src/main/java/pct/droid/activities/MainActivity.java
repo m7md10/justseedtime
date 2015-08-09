@@ -146,37 +146,37 @@ public class MainActivity extends PopcornBaseActivity implements NavigationDrawe
         mTabs.setVisibility((mCurrentFragment instanceof MediaContainerFragment) ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void onVPNServiceReady() {
-        super.onVPNServiceReady();
-        mNavigationDrawerFragment.initItems();
-    }
+    // @Override
+    // public void onVPNServiceReady() {
+    //     super.onVPNServiceReady();
+    //     mNavigationDrawerFragment.initItems();
+    // }
 
-    @Override
-    public void onVPNStatusUpdate(VPNManager.State state, String message) {
-        super.onVPNStatusUpdate(state, message);
-        Timber.d("New state: %s", state);
-        NavigationDrawerFragment.NavDrawerItem vpnItem = mNavigationDrawerFragment.getVPNItem();
-        if(vpnItem != null) {
-            if (state.equals(VPNManager.State.DISCONNECTED)) {
-                vpnItem.setSwitchValue(false);
-                vpnItem.showProgress(false);
-            } else if(state.equals(VPNManager.State.CONNECTING)) {
-                vpnItem.showProgress(true);
-            } else if(state.equals(VPNManager.State.CONNECTED)) {
-                vpnItem.setSwitchValue(true);
-                vpnItem.showProgress(false);
-            }
-        }
-    }
+    // @Override
+    // public void onVPNStatusUpdate(VPNManager.State state, String message) {
+    //     super.onVPNStatusUpdate(state, message);
+    //     Timber.d("New state: %s", state);
+    //     NavigationDrawerFragment.NavDrawerItem vpnItem = mNavigationDrawerFragment.getVPNItem();
+    //     if(vpnItem != null) {
+    //         if (state.equals(VPNManager.State.DISCONNECTED)) {
+    //             vpnItem.setSwitchValue(false);
+    //             vpnItem.showProgress(false);
+    //         } else if(state.equals(VPNManager.State.CONNECTING)) {
+    //             vpnItem.showProgress(true);
+    //         } else if(state.equals(VPNManager.State.CONNECTED)) {
+    //             vpnItem.setSwitchValue(true);
+    //             vpnItem.showProgress(false);
+    //         }
+    //     }
+    // }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.activity_overview, menu);
 
-        MenuItem playerTestMenuItem = menu.findItem(R.id.action_playertests);
-        playerTestMenuItem.setVisible(Constants.DEBUG_ENABLED);
+        // MenuItem playerTestMenuItem = menu.findItem(R.id.action_playertests);
+        // playerTestMenuItem.setVisible(Constants.DEBUG_ENABLED);
 
         return true;
     }

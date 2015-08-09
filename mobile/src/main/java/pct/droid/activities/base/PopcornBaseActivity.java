@@ -18,13 +18,10 @@
 package pct.droid.activities.base;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.crashlytics.android.core.CrashlyticsCore;
 
 import pct.droid.R;
 import pct.droid.base.PopcornApplication;
@@ -41,16 +38,8 @@ public class PopcornBaseActivity extends TorrentBaseActivity implements BeamMana
     protected Boolean mShowCasting = false;
     protected VPNManager mVPNManager;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState, int layoutId) {
-        super.onCreate(savedInstanceState, layoutId);
-        CrashlyticsCore.getInstance().log(getClass().getName() + " onCreate");
-    }
-
     @Override
     protected void onResume() {
-        CrashlyticsCore.getInstance().log(getClass().getName() + " onResume");
         String language = PrefUtils.get(this, Prefs.LOCALE, PopcornApplication.getSystemLanguage());
         LocaleUtils.setCurrent(this, LocaleUtils.toLocale(language));
         super.onResume();
@@ -66,14 +55,12 @@ public class PopcornBaseActivity extends TorrentBaseActivity implements BeamMana
     @Override
     protected void onPause() {
         super.onPause();
-        CrashlyticsCore.getInstance().log(getClass().getName() + " onPause");
         BeamManager.getInstance(this).removeListener(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        CrashlyticsCore.getInstance().log(getClass().getName() + " onStop");
         if(mVPNManager != null)
             mVPNManager.stop();
     }

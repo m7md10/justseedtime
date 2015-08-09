@@ -66,6 +66,7 @@ import pct.droid.base.utils.PrefUtils;
 import pct.droid.base.utils.ResourceUtils;
 import pct.droid.base.utils.StorageUtils;
 import pct.droid.dialogfragments.ChangeLogDialogFragment;
+import pct.droid.dialogfragments.ApinputFragment;
 import pct.droid.dialogfragments.ColorPickerDialogFragment;
 import pct.droid.dialogfragments.NumberPickerDialogFragment;
 import pct.droid.dialogfragments.SeekBarDialogFragment;
@@ -269,6 +270,36 @@ public class PreferencesActivity extends PopcornBaseActivity
                     public String get(PrefItem item) {
                         boolean enabled = (boolean) item.getValue();
                         return enabled ? getString(R.string.enabled) : getString(R.string.disabled);
+                    }
+                }));
+
+        mPrefItems.add(getResources().getString(R.string.jsit));
+
+        mPrefItems.add(new PrefItem(this, R.drawable.ic_key, R.string.jsitapi, Prefs.API_KEY, "Enter your API KEY" ,
+                new PrefItem.OnClickListener() {
+                    @Override
+                    public void onClick(final PrefItem item) {
+                        Bundle args = new Bundle();
+                        args.putString(ApinputFragment.TITLE, item.getTitle());
+                        // args.putInt(ApinputFragment.MAX_VALUE, 60);
+                        // args.putInt(ApinputFragment.MIN_VALUE, 10);
+                        // args.putInt(ApinputFragment.DEFAULT_VALUE, (int) item.getValue());
+
+                        ApinputFragment dialogFragment = new ApinputFragment();
+                        dialogFragment.setArguments(args);
+                        dialogFragment.setOnResultListener(new ApinputFragment.ResultListener() {
+                            @Override
+                            public void onNewValue(String value) {
+                                item.saveValue(value);
+                            }
+                        });
+                        dialogFragment.show(getSupportFragmentManager(), "pref_fragment");
+                    }
+                },
+                new PrefItem.SubTitleGenerator() {
+                    @Override
+                    public String get(PrefItem item) {
+                        return item.getValue().toString();
                     }
                 }));
 

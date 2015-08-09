@@ -39,25 +39,26 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.Bind;
 import butterknife.OnClick;
 import hugo.weaving.DebugLog;
 import pct.droid.R;
 import pct.droid.activities.BeamPlayerActivity;
 import pct.droid.activities.VideoPlayerActivity;
 import pct.droid.base.beaming.BeamManager;
+import pct.droid.base.beaming.server.BeamServer;
 import pct.droid.base.beaming.server.BeamServerService;
 import pct.droid.base.fragments.BaseStreamLoadingFragment;
 import pct.droid.base.preferences.DefaultPlayer;
 import pct.droid.base.torrent.DownloadStatus;
 import pct.droid.base.torrent.StreamInfo;
 import pct.droid.base.torrent.Torrent;
-import pct.droid.base.utils.FragmentUtil;
 import pct.droid.base.utils.PixelUtils;
 import pct.droid.base.utils.ThreadUtils;
 import pct.droid.base.utils.VersionUtils;
 import pct.droid.dialogfragments.StringArraySelectorDialogFragment;
+import timber.log.Timber;
 
 public class StreamLoadingFragment extends BaseStreamLoadingFragment {
 
@@ -248,7 +249,7 @@ public class StreamLoadingFragment extends BaseStreamLoadingFragment {
     @Override
     @DebugLog
     protected void startPlayerActivity(String location, int resumePosition) {
-        if (FragmentUtil.isAdded(this) && !mPlayerStarted) {
+        if (getActivity() != null && !mPlayerStarted) {
             mStreamInfo.setVideoLocation(location);
             if (BeamManager.getInstance(mContext).isConnected()) {
                 BeamPlayerActivity.startActivity(mContext, mStreamInfo, resumePosition);

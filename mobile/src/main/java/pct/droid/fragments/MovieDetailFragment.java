@@ -3,8 +3,11 @@ package pct.droid.fragments;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.Layout;
 import android.text.TextUtils;
@@ -13,15 +16,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.os.AsyncTask;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.Bind;
@@ -47,6 +57,13 @@ import pct.droid.base.youtube.YouTubeData;
 import pct.droid.dialogfragments.SynopsisDialogFragment;
 import pct.droid.fragments.base.BaseDetailFragment;
 import pct.droid.widget.OptionSelector;
+
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.FormEncodingBuilder;
 
 public class MovieDetailFragment extends BaseDetailFragment {
 
@@ -323,11 +340,43 @@ public class MovieDetailFragment extends BaseDetailFragment {
 
     @OnClick(R.id.play_button)
     public void play() {
-        String streamUrl = sMovie.torrents.get(mSelectedQuality).url;
-        StreamInfo streamInfo = new StreamInfo(sMovie, streamUrl, mSelectedSubtitleLanguage, mSelectedQuality);
-        mCallback.playStream(streamInfo);
-    }
+    final String torrentHash = sMovie.torrents.get(mSelectedQuality).hash;
+    final String apikey = PrefUtils.get(getActivity(), Prefs.API_KEY, "");
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String result = null;
 
+                RequestBody formBody = new FormEncodingBuilder()
+                        .add("api_key", apikey)
+                        .add("info_hash",torrentHash)
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url("https://api.justseed.it/torrent/add.csp")
+                        .post(formBody)
+                        .build();
+
+                OkHttpClient client = new OkHttpClient();
+
+                try {
+                    Response response = client.newCall(request).execute();
+                    result = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+
+                Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+
+            }
+        }.execute();
+    }
     @OnClick(R.id.magnet)
     public void openMagnet() {
         mMagnet.open(mActivity);

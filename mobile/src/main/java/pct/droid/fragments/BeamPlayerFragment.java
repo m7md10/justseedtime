@@ -64,7 +64,6 @@ import pct.droid.base.torrent.StreamInfo;
 import pct.droid.base.torrent.Torrent;
 import pct.droid.base.torrent.TorrentService;
 import pct.droid.base.utils.AnimUtils;
-import pct.droid.base.utils.FragmentUtil;
 import pct.droid.base.utils.PixelUtils;
 import pct.droid.base.utils.VersionUtils;
 import pct.droid.dialogfragments.LoadingBeamingDialogFragment;
@@ -375,9 +374,8 @@ public class BeamPlayerFragment extends Fragment implements TorrentService.Liste
     private MediaControl.PlayStateListener mPlayStateListener = new MediaControl.PlayStateListener() {
         @Override
         public void onSuccess(MediaControl.PlayStateStatus state) {
-            if(FragmentUtil.isAdded(BeamPlayerFragment.this)) {
+            if(isDetached())
                 return;
-            }
 
             mIsPlaying = state.equals(MediaControl.PlayStateStatus.Playing);
             mPlayButton.setImageResource(mIsPlaying ? R.drawable.ic_av_pause : R.drawable.ic_av_play);
@@ -394,10 +392,6 @@ public class BeamPlayerFragment extends Fragment implements TorrentService.Liste
 
         @Override
         public void onError(ServiceCommandError error) {
-            if(FragmentUtil.isAdded(BeamPlayerFragment.this)) {
-                return;
-            }
-
             if (mLoadingDialog.isVisible() && error.getCode() == 500 && !getActivity().isFinishing()) {
                 mLoadingDialog.dismiss();
 

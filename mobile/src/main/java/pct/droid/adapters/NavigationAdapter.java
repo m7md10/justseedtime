@@ -90,8 +90,8 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void onBindHeaderViewHolder(HeaderHolder holder, int position) {
         //do nothing for now
         holder.mBackgroundImageView.setBackgroundResource(R.color.primary_dark);
-        holder.mProfileImageView.setVisibility(View.VISIBLE);
-        holder.mProfileImageView.setImageResource(R.drawable.popcorn_profile);
+        //holder.mProfileImageView.setVisibility(View.VISIBLE);
+        //holder.mProfileImageView.setImageResource(R.drawable.popcorn_profile);
     }
 
     private void onBindItemViewHolder(ItemRowHolder viewHolder, int position) {

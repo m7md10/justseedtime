@@ -38,18 +38,18 @@ public class AboutFragment extends Fragment {
 
     @Bind(R.id.logo_imageview)
     ImageView mLogoImageView;
-    @Bind(R.id.facebook_button)
-    TextView mFacebookButton;
-    @Bind(R.id.git_button)
-    TextView mGitButton;
-    @Bind(R.id.blog_button)
-    TextView mBlogButton;
-    @Bind(R.id.popcorn_button)
-    TextView mPopcornButton;
-    @Bind(R.id.discuss_button)
-    TextView mDiscussButton;
-    @Bind(R.id.twitter_button)
-    TextView mTwitterButton;
+    // @Bind(R.id.facebook_button)
+    // TextView mFacebookButton;
+    // @Bind(R.id.git_button)
+    // TextView mGitButton;
+    // @Bind(R.id.blog_button)
+    // TextView mBlogButton;
+    // @Bind(R.id.popcorn_button)
+    // TextView mPopcornButton;
+    // @Bind(R.id.discuss_button)
+    // TextView mDiscussButton;
+    // @Bind(R.id.twitter_button)
+    // TextView mTwitterButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -102,34 +102,34 @@ public class AboutFragment extends Fragment {
         startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.POPCORN_URL));
     }
 
-    @OnClick(R.id.facebook_button)
-    void onFacebookClick() {
-        startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.FB_URL));
-    }
+    // @OnClick(R.id.facebook_button)
+    // void onFacebookClick() {
+    //     startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.FB_URL));
+    // }
 
-    @OnClick(R.id.git_button)
-    void onGitClick() {
-        startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.GIT_URL));
-    }
+    // @OnClick(R.id.git_button)
+    // void onGitClick() {
+    //     startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.GIT_URL));
+    // }
 
-    @OnClick(R.id.blog_button)
-    void onBlogClick() {
-        startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.BLOG_URL));
-    }
+    // @OnClick(R.id.blog_button)
+    // void onBlogClick() {
+    //     startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.BLOG_URL));
+    // }
 
-    @OnClick(R.id.popcorn_button)
-    void onPopcornClick() {
-        startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.POPCORN_URL));
-    }
+    // @OnClick(R.id.popcorn_button)
+    // void onPopcornClick() {
+    //     startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.POPCORN_URL));
+    // }
 
-    @OnClick(R.id.discuss_button)
-    void onDiscussClick() {
-        startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.DISCUSS_URL));
-    }
+    // @OnClick(R.id.discuss_button)
+    // void onDiscussClick() {
+    //     startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.DISCUSS_URL));
+    // }
 
-    @OnClick(R.id.twitter_button)
-    void onTwitterClick() {
-        startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.TWITTER_URL));
-    }
+    // @OnClick(R.id.twitter_button)
+    // void onTwitterClick() {
+    //     startActivity(IntentUtils.getBrowserIntent(getActivity(), Constants.TWITTER_URL));
+    // }
 
 }

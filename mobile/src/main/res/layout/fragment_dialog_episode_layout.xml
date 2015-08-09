@@ -175,7 +175,7 @@
                         android:layout_marginTop="152dp"
                         android:background="@drawable/play_button_circle"
                         android:elevation="5dp"
-                        android:src="@drawable/ic_av_play_button" />
+                        android:src="@drawable/ic_upload" />
                 </RelativeLayout>
 
                 <View
@@ -188,6 +188,7 @@
                     android:id="@+id/subtitles"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    android:visibility="gone"
                     app:optionIcon="@drawable/ic_av_subs"
                     app:optionText="@string/subtitles" />
 
@@ -195,6 +196,7 @@
                     android:id="@+id/option_div_1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/optionselector_text_margin_start"
                     android:layout_marginStart="@dimen/optionselector_text_margin_start"
                     android:background="@color/div_white" />
