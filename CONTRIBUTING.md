@@ -98,7 +98,7 @@ what's already there?
 
 
 <a name="pull-requests"></a>
-### Submitting Pull Requests
+### Submitting  Pull Requests
 
 Pull requests are awesome. If you're looking to raise a PR for something which doesn't have an open issue, please think carefully about [raising an issue](#report-a-bug) which your PR can close, especially if you're fixing a bug. This makes it more likely that there will be enough information available for your PR to be properly tested and merged.
 
